@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AIResumeX - Smart CV Generator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      padding: 20px;
+    }
+    .form-box, .preview-box {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, textarea {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 5px;
+      margin-bottom: 15px;
+      padding: 8px 14px;
+      background: #1a73e8;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .preview-box {
+      display: none;
+    }
+    #cvPreview h2 {
+      margin: 5px 0;
+    }
+    #cvPreview {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-box">
+  <h2>AIResumeX CV Builder</h2>
+  <input type="text" id="name" placeholder="Full Name" required>
+  <input type="email" id="email" placeholder="Email" required>
+  <input type="text" id="phone" placeholder="Phone">
+
+  <textarea id="objective" placeholder="Career Objective"></textarea>
+  <button onclick="suggestObjective()">AI Suggest Objective</button>
+
+  <textarea id="education" placeholder="Education"></textarea>
+  <button onclick="suggestEducation()">AI Suggest Education</button>
+
+  <textarea id="experience" placeholder="Experience"></textarea>
+  <button onclick="suggestExperience()">AI Suggest Experience</button>
+
+  <textarea id="skills" placeholder="Skills"></textarea>
+  <button onclick="suggestSkills()">AI Suggest Skills</button>
+
+  <textarea id="projects" placeholder="Projects"></textarea>
+  <button onclick="suggestProjects()">AI Suggest Projects</button>
+
+  <button onclick="generateCV()">Generate CV</button>
+</div>
+
+<div class="preview-box" id="cvSection">
+  <div id="cvPreview"></div>
+  <button onclick="downloadCV()">Download as PDF</button>
+</div>
+
+<script>
+  function suggestObjective() {
+    document.getElementById('objective').value =
+      "Aspiring software engineer with a strong passion for AI and technology, aiming to solve real-world problems through innovative solutions.";
+  }
+
+  function suggestEducation() {
+    document.getElementById('education').value =
+      "B.Tech in Computer Science, XYZ University (2022–2026)\nCGPA: 8.9/10";
+  }
+
+  function suggestExperience() {
+    document.getElementById('experience').value =
+      "Intern, TCS Digital (Summer 2024)\nWorked on automating internal tools using Python and deployed ML models.";
+  }
+
+  function suggestSkills() {
+    document.getElementById('skills').value =
+      "Python, JavaScript, Firebase, React.js, Machine Learning, Git, REST APIs";
+  }
+
+  function suggestProjects() {
+    document.getElementById('projects').value =
+      "AI Resume Builder – A web app to auto-generate resumes using AI and export to PDF.\nWeather App – Real-time weather updates using OpenWeatherMap API.";
+  }
+
+  function generateCV() {
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const objective = document.getElementById('objective').value;
+    const education = document.getElementById('education').value;
+    const experience = document.getElementById('experience').value;
+    const skills = document.getElementById('skills').value;
+    const projects = document.getElementById('projects').value;
+
+    const preview = `
+      <h2>${name}</h2>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Phone:</strong> ${phone}</p>
+      <h3>Career Objective</h3><p>${objective}</p>
+      <h3>Education</h3><p>${education.replace(/\n/g, "<br>")}</p>
+      <h3>Experience</h3><p>${experience.replace(/\n/g, "<br>")}</p>
+      <h3>Skills</h3><p>${skills.replace(/\n/g, "<br>")}</p>
+      <h3>Projects</h3><p>${projects.replace(/\n/g, "<br>")}</p>
+    `;
+
+    document.getElementById('cvPreview').innerHTML = preview;
+    document.getElementById('cvSection').style.display = 'block';
+  }
+
+  function downloadCV() {
+    const element = document.getElementById('cvPreview');
+    html2pdf().from(element).save('AIResumeX_CV.pdf');
+  }
+</script>
+
+</body>
+</html>
